@@ -26,7 +26,7 @@ Updated: 2026-08-24
 ## Verification result
 
 - Clean `lintDebug`, `testDebugUnitTest`, `assembleDebug`, and `assembleDebugAndroidTest` completed successfully on 2026-08-24.
-- JVM tests: 17 passed, 0 failed, 0 skipped.
+- JVM tests: 18 passed, 0 failed, 0 skipped.
 - Lint: 0 errors and 0 warnings.
 - Debug APK produced at `app/build/outputs/apk/debug/app-debug.apk`.
 - Instrumentation tests compile into an Android-test APK; execution remains pending because no emulator or physical device is connected.

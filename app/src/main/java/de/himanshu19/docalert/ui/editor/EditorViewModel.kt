@@ -49,16 +49,21 @@ class EditorViewModel(
     init { viewModelScope.launch { load() } }
 
     private suspend fun load() {
+        val existingId = itemId
+        if (existingId != null) {
+            existing = runCatching { repository.getItem(existingId) }.getOrNull()
+            if (existing == null) {
+                _uiState.value = EditorUiState(loading = false, errorMessage = "This item is no longer available.")
+                return
+            }
+        }
         val restored = savedStateHandle.get<ItemDraftSnapshot>(DRAFT_KEY)?.toDraft()
         if (restored != null) {
             _uiState.value = EditorUiState(loading = false, draft = restored, isDirty = true)
             return
         }
         runCatching {
-            if (itemId != null) {
-                existing = repository.getItem(itemId)
-                existing?.toDraft() ?: throw NoSuchElementException()
-            } else ItemDraft(reminders = settings.settings.first().defaultReminders)
+            existing?.toDraft() ?: ItemDraft(reminders = settings.settings.first().defaultReminders)
         }.onSuccess { _uiState.value = EditorUiState(loading = false, draft = it) }
             .onFailure { _uiState.value = EditorUiState(loading = false, errorMessage = "This item is no longer available.") }
     }

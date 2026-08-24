@@ -43,10 +43,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import de.himanshu19.docalert.data.settings.ThemeMode
 import de.himanshu19.docalert.domain.model.Category
 import de.himanshu19.docalert.domain.model.ItemStatus
 import de.himanshu19.docalert.ui.components.ItemCard
 import java.time.LocalDate
+import java.time.Instant
+import de.himanshu19.docalert.domain.model.ItemType
+import de.himanshu19.docalert.domain.model.TrackedItem
+import de.himanshu19.docalert.ui.theme.DocAlertTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -141,3 +147,23 @@ private fun EmptyState(filtered: Boolean, onAdd: () -> Unit) {
     }
 }
 
+@Preview(showBackground = true, widthDp = 360, heightDp = 760)
+@Composable
+private fun HomeEmptyPreview() {
+    DocAlertTheme(ThemeMode.LIGHT) {
+        HomeScreen(HomeUiState(loading = false), {}, {}, {}, {}, {}, {}, {})
+    }
+}
+
+@Preview(showBackground = true, widthDp = 360, heightDp = 760)
+@Composable
+private fun HomeRecordsPreview() {
+    val today = LocalDate.now()
+    val previewItems = listOf(
+        TrackedItem(1, ItemType.DOCUMENT, "Residence permit", Category.RESIDENCE_PERMIT, "Alex", expiryDate = today.plusDays(18), createdAt = Instant.EPOCH, updatedAt = Instant.EPOCH),
+        TrackedItem(2, ItemType.DEADLINE, "School application", Category.SCHOOL, expiryDate = today.plusDays(62), createdAt = Instant.EPOCH, updatedAt = Instant.EPOCH),
+    )
+    DocAlertTheme(ThemeMode.LIGHT) {
+        HomeScreen(HomeUiState(loading = false, items = previewItems), {}, {}, {}, {}, {}, {}, {})
+    }
+}

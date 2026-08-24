@@ -70,6 +70,22 @@ class ViewModelTest {
         assertNotNull(missing.uiState.value.errorMessage)
     }
 
+    @Test fun `restored edit updates original instead of inserting duplicate`() = runTest {
+        val repository = FakeItemRepository(listOf(item()))
+        val handle = SavedStateHandle()
+        val first = EditorViewModel(1, repository, FakeSettingsRepository(), FakeReminderScheduler(), handle, clock)
+        advanceUntilIdle()
+        first.update { it.copy(title = "Restored title") }
+        val recreated = EditorViewModel(1, repository, FakeSettingsRepository(), FakeReminderScheduler(), handle, clock)
+        advanceUntilIdle()
+        assertEquals("Restored title", recreated.uiState.value.draft.title)
+        recreated.save()
+        advanceUntilIdle()
+        assertEquals(1, repository.records.value.size)
+        assertEquals(1L, repository.records.value.single().id)
+        assertEquals("Restored title", repository.records.value.single().title)
+    }
+
     @Test fun `details missing state and deletion cancel reminder work`() = runTest {
         val repository = FakeItemRepository(listOf(item()))
         val scheduler = FakeReminderScheduler()
@@ -84,4 +100,3 @@ class ViewModelTest {
         assertTrue(missing.uiState.first { !it.loading }.missing)
     }
 }
-
