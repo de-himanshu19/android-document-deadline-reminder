@@ -7,11 +7,10 @@ captures/
 
 # Local Android configuration
 local.properties
+gradle/gradle-daemon-jvm.properties
 
 # Android Studio / IntelliJ user state
-.idea/*
-!.idea/codeStyles/
-!.idea/inspectionProfiles/
+.idea/
 *.iml
 
 # Signing and credentials
@@ -30,4 +29,3 @@ desktop.ini
 *.tmp
 *.swp
 *~
-
