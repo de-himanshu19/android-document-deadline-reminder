@@ -1,0 +1,33 @@
+# Gradle and Android build output
+.gradle/
+**/build/
+captures/
+*.apk
+*.aab
+
+# Local Android configuration
+local.properties
+
+# Android Studio / IntelliJ user state
+.idea/*
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+*.iml
+
+# Signing and credentials
+*.jks
+*.keystore
+keystore.properties
+credentials.properties
+secrets.properties
+*.p12
+*.pem
+
+# Operating system and temporary files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.swp
+*~
+

@@ -1,0 +1,15 @@
+<resources>
+    <style name="Theme.DocAlert" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/docalert_splash</item>
+        <item name="android:statusBarColor">@color/docalert_splash</item>
+    </style>
+
+    <style name="Theme.DocAlert.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/docalert_splash</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.DocAlert</item>
+    </style>
+</resources>
+
