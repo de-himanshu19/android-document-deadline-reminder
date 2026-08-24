@@ -1,11 +1,15 @@
 package de.himanshu19.docalert.ui
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import de.himanshu19.docalert.data.settings.AppSettings
 import de.himanshu19.docalert.domain.model.Category
 import de.himanshu19.docalert.domain.model.ItemDraft
@@ -44,9 +48,9 @@ class DocAlertUiTest {
 
     @Test fun savedCardRendersStatusSemanticsAndSearchEmitsInput() {
         val item = TrackedItem(1, ItemType.DOCUMENT, "Passport", Category.PASSPORT, expiryDate = LocalDate.now().plusDays(20), createdAt = Instant.EPOCH, updatedAt = Instant.EPOCH)
-        var search = ""
+        var search by mutableStateOf("")
         compose.setContent { DocAlertTheme(de.himanshu19.docalert.data.settings.ThemeMode.LIGHT) {
-            HomeScreen(HomeUiState(false, listOf(item), ItemQuery()), { search = it }, {}, {}, {}, {}, {}, {})
+            HomeScreen(HomeUiState(false, listOf(item), ItemQuery(search = search)), { search = it }, {}, {}, {}, {}, {}, {})
         } }
         compose.onNodeWithText("Passport").assertIsDisplayed()
         compose.onNodeWithContentDescription("Passport, Urgent, 20 days remaining").assertIsDisplayed()
@@ -76,7 +80,7 @@ class DocAlertUiTest {
             SettingsScreen(SettingsUiState(false, AppSettings()), false, {}, {}, {}, {}, {}, {}, {})
         } }
         compose.onNodeWithText("System default").assertIsDisplayed()
-        compose.onNodeWithText("Private notification content").assertIsDisplayed()
+        compose.onNodeWithText("Private notification content").performScrollTo().assertIsDisplayed()
         compose.onNodeWithText("Open notification settings").assertIsDisplayed()
     }
 }
